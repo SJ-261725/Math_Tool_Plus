@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>MTPE v2.1</title>
+		<link rel="stylesheet" type="text/css" href="../css/MTPE_v2.0.css" />
+	</head>
+	<body>
+		<div class="notice">
+			<b>Notice!</b><br>
+			由于JavaScript的小数计算精度不高，例如<br>0.1 + 0.2 = 0.30000000000000004。<br>
+			因此已设置小数计算自动精确到小数点后<input type="number" id="setFixed" value="5" max="15" min="0" />位。
+		</div>
+		<main>
+			<div id="info">当前方程类型:<span id="type"></span><span class="changeType">Change!</span></div>
+			<ul class="mode">
+				<li>Mode 1</li>
+				<li>Mode 2</li>
+				<li>Mode 3</li>
+				<li>Mode 4</li>
+			</ul>
+			<div id="cArea">
+				<div id="inputField"></div>
+				<div id="resultField"></div>
+			</div>
+		</main>
+		<script src="../js/MTPE_v2.1.js"></script>
+	</body>
+</html>

@@ -1,0 +1,65 @@
+MTP v0.1
+	继承Math Tool(已废弃项目)的样式
+	重构并完善计算功能
+MTP v0.2
+	加入C CE 正负数 功能
+	加入小数计算
+MTP v0.3
+	解决完善精度问题
+	加入平方 开方 功能
+MTP v0.4
+	加入倒数,X^Y 功能
+MTP v1.0 第一个正式版本!
+	修复部分问题
+MTP v1.1
+	修改布局
+	加入高级功能(未启用)
+MTP v2.0
+	将MTP计算器更为MTPC(Math Tool Plus Calculator)
+	加入模块化设计
+	分出三个模块:
+		MTPC(Math Tool Plus Calculator) --> 计算工具
+		MTPE(Math Tool Plus Equation) --> 解方程工具
+		MTPP(Math Tool Plus Painter) --> 绘制函数工具
+MTP v2.1
+		优化显示问题
+MTP v2.2
+		子模块MTPE v0.1
+			完成基本框架
+MTP v2.3
+		子模块MTPE v0.2
+			加入过渡动画
+MTP v2.4
+		子模块MTPE v0.3
+			加入Mode1
+MTP v2.5
+		子模块MTPE v0.4
+			加入Mode2,Mode3
+MTP v2.6
+	子模块MTPE v0.5
+		加入Mode4
+MTP v2.7
+	子模块MTPE v1.0
+		加入新解决方案:使精度显示更为完善
+	子模块MTPC v2.1
+		加入新解决方案:使精度显示更为完善
+MTP v2.8
+	优化显示问题
+	此版本以后不保留前版本文件
+MTP v3.0
+	子模块MTPE v2.0
+		加入切换按钮
+		加入空格切换输入框
+		加入一元二次解法 Mode1
+		可检测输入值是否合法
+	子模块MTPC v2.6
+		修复已知问题
+		完善全部 派 阶乘 三角函数 高级功能
+		支持键盘输入数字 +-*/^ =
+	子模块MTPP v0.8 beta
+		完成基础框架
+		完成基本样式:
+			默认坐标轴
+			格点
+		可实现绘制一次函数(传参)
+		可检测输入值是否合法

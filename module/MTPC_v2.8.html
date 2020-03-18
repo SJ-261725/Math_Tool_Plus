@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>MTPC v2.8</title>
+		<link rel="stylesheet" href="../css/MTPC_v1.1.css">
+	</head>
+
+	<body>
+		<div class="notice">
+			<b>Notice!</b><br>
+			由于JavaScript的小数计算精度不高，例如<br>0.1 + 0.2 = 0.30000000000000004。<br>
+			因此已设置小数计算自动精确到小数点后<input type="number" id="setFixed" value="5" max="15" min="0" />位。
+		</div>
+		<main>
+			<div>
+				<span id="history"></span>
+				<input type="text" id="outputField" disabled>
+			</div>
+			<div>
+				<div class="operator">x<sup>y</sup></div>
+				<div id="root"><sub>√</sub></div>
+				<div id="square">x<sup>2</sup></div>
+				<div id= "reciprocal"><sup>1</sup>/x</div>
+				<div id="factorial">n!</div>
+			</div>
+			<div>
+				<div id="ce">CE</div>
+				<div id="c">C</div>
+				<div id="del">&#60;x</div>
+				<div class="operator">&#247;</div>
+				<div id="PI">&#928;</div>
+			</div>
+			<div>
+				<div class="num">7</div>
+				<div class="num">8</div>
+				<div class="num">9</div>
+				<div class="operator">&#215;</div>
+				<div id="sin">sin</div>
+			</div>
+			<div>
+				<div class="num">4</div>
+				<div class="num">5</div>
+				<div class="num">6</div>
+				<div class="operator">-</div>
+				<div id="cos">cos</div>
+			</div>
+			<div>
+				<div class="num">1</div>
+				<div class="num">2</div>
+				<div class="num">3</div>
+				<div class="operator">+</div>
+				<div id="tan">tan</div>
+			</div>
+			<div>
+				<div id="re">&#177;</div>
+				<div class="num">0</div>
+				<div id="dot">.</div>
+				<div id="calculateBtn">=</div>
+			</div>
+		</main>
+		<script src="../js/MTPC_v2.8.js"></script>
+	</body>
+
+</html>
