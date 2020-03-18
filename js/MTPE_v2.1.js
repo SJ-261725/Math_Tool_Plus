@@ -225,7 +225,7 @@ function calc() {
 		await ifEnded();
 		main.style.transform = "translate(-50%, -50%) scale(1.05) rotate(8deg)";
 		// 如果有一个输入框为空则退出，并使用红色提醒
-		if (Array.from(area.querySelectorAll("input")).some(input => !testAllow(input))) {
+		if (Array.from(area.querySelectorAll("input")).some(input => !testAllow(input.value))) {
 			document.body.style.backgroundColor = "darkred";
 			yes = false;
 		} else {
