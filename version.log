@@ -93,6 +93,7 @@ MTP v3.6
 -------------未完成--------------
 		支持一元二次方程Mode2,Mode3
 MTP v4.0
+	添加一种打开模块的方式为更实用的方式
 	子模块MTPE v2.5
 		支持一元二次方程Mode4
 		支持二元一次方程Mode1,Mode2,Mode3,Mode4
@@ -105,4 +106,10 @@ MTP v4.0
 			橡皮
 			矩形绘制
 			圆形绘制
-	
+
+
+git clone https://github.com/SJ-261725/SJ-261725.github.io.git
+cd SJ-261725.github.io
+git add .
+git commit -m "update"
+git push
