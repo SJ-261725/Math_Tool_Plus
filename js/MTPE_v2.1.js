@@ -35,25 +35,6 @@ let modeMap = [
 // =======================================================================
 
 // =======================================================================
-// 帮助函数
-function getE(str) {
-	return document.querySelector(str)
-};
-
-function testFixed(num) {
-	if ((num + "").includes(".")) {
-		num = (+num).toFixed(fixedNum);
-	}
-	return +num;
-}
-
-function testAllow(str) {
-	let reg = /^-?[0-9]*\.?[0-9]+$/
-	return reg.test(str)
-}
-// =======================================================================
-
-// =======================================================================
 // 功能定义
 let currentType = 0;
 currentMode = 2, // 当前模式
@@ -214,9 +195,8 @@ function calc() {
 	// 动画完毕会返回resolve，以进行异步操作
 	function ifEnded() {
 		return new Promise(resolve => {
-			main.ontransitionend = () => {
-				resolve();
-			}
+			// main.addEventListener("transitionend",() => resolve()); // 部分浏览器不兼容，就很烦
+			setTimeout(() => resolve(),500);
 		});
 	}
 	// 异步函数

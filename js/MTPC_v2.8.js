@@ -2,30 +2,12 @@
 // 初始化变量
 const outputField = getE("#outputField"); // 数字输出区域，即你的键入区域
 const history = getE("#history"); // 保留区域
+const showMap = ["^", "÷", "×", "-", "+"]; // 运算符输出的映射表 把非正常的运算符（乘除号不一样）映射成正确运算符
 const map = ["**", "/", "*", "-", "+"]; // 运算符映射表 把非正常的运算符（乘除号不一样）映射成正确运算符
 const setFixed = getE("#setFixed"); // 设置小数计算精度的位置
 const nums = Array.from(document.querySelectorAll(".num")); // 数字按钮
 const operators = document.querySelectorAll(".operator"); // 运算符按钮
 const calculateBtn = getE("#calculateBtn"); // 等于号
-// =======================================================================
-
-// =======================================================================
-// 帮助函数
-function getE(str) {
-	return document.querySelector(str)
-};
-
-function testFixed(num) {
-	if ((num + "").includes(".")) {
-		num = (+num).toFixed(fixedNum);
-	}
-	return +num;
-}
-
-function testAllow(str) {
-	let reg = /^[0-9]?\.?[0-9]+$/
-	return reg.test(str)
-}
 // =======================================================================
 
 // =======================================================================
@@ -159,26 +141,26 @@ function operate(i) {
 	if (outputField.value && !history.textContent) {
 		// 当没有处于计算中时，即当前数就是第一个运算数时
 		// 将数移上保留区域 并拼接运算符
-		history.textContent = outputField.value + " " + map[i];
+		history.textContent = outputField.value + " " + showMap[i];
 		newOne = false;
 	} else if (!outputField.value && history.textContent) {
 		// 当键入区域为空，保留区域有数字和运算符就将运算符更改，只有数字（上次计算的结果输出）就在最后加上运算符
 		if (newOne) {
-			history.textContent += " " + map[i];
+			history.textContent += " " + showMap[i];
 			newOne = false;
 		} else {
-			history.textContent = history.textContent.slice(0, -1) + map[i];
+			history.textContent = history.textContent.slice(0, -1) + showMap[i];
 		}
 	} else if (outputField.value && history.textContent) {
 		// 上下都有数字，先判断是否是保留区域有数字和运算符（只有这种情况），是则进行一次运算
 		if (history.textContent[history.textContent.length - 2] == " ") {
 			calculate();
-			history.textContent += " " + map[i];
+			history.textContent += " " + showMap[i];
 			newOne = false;
 		}
 	} else {
 		// 上下都没有，认定为输入0
-		history.textContent = "0 " + map[i];
+		history.textContent = "0 " + showMap[i];
 	}
 	outputField.value = ""; // 输入区域清空
 	currentOperator = i; // 记录当前运算符
@@ -190,7 +172,7 @@ function calculate() {
 		return;
 	}
 	// 使用temp记录输入区域的数并转为数字，没有则为0
-	let temp = outputField.value ? +outputField.value : 0;
+	let temp = outputField.value || 0;
 	// 清空输入区域
 	outputField.value = '';
 	// 使用eval将两个运算数和运算符拼接的结果执行并赋给temp
