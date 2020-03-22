@@ -15,8 +15,9 @@ const calculateBtn = getE("#calculateBtn"); // 等于号
 let currentOperator, newOne, fixedNum = 5;
 // 是否改动精度值
 setFixed.addEventListener("input", function() {
+	if (!testAllow(this.value)) this.value = '';
 	fixedNum = this.value >= 0 && this.value <= 15 ? +this.value : 5;
-})
+});
 // 绑定回退单击事件
 getE("#del").addEventListener("click", () => {
 	outputField.value = outputField.value.slice(0, -1); // 将字符串最后一位截取掉
@@ -211,9 +212,10 @@ getE("#dot").addEventListener("click", checkDot)
 // 计算事件
 calculateBtn.addEventListener("click", calculate);
 document.addEventListener("keypress", (ev) => {
+	if (ev.target.nodeName == "INPUT") return;
 	ev.preventDefault();
 	let kCode = ev.keyCode;
-	if (kCode > 47 && kCode < 57) {
+	if (kCode > 47 && kCode < 58) {
 		inputNum(ev.key)
 	} else if (kCode > 41 && kCode < 48) {
 		if (kCode == 44) return;
@@ -224,4 +226,10 @@ document.addEventListener("keypress", (ev) => {
 		operate(map.indexOf(ev.key));
 	} else if (kCode == 94) operate(0);
 	else if (kCode == 61 || kCode == 13) calculate();
+})
+document.addEventListener("keydown", (ev) => {
+	if (ev.keyCode == 8) {
+		ev.preventDefault();
+		outputField.value = outputField.value.slice(0, -1); // 将字符串最后一位截取掉}
+	}
 })

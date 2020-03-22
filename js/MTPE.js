@@ -9,15 +9,16 @@ const htmlMap = [
 		`<input type="text"> X = <input type="text">`,
 		`<input type="text"> X + <input type="text"> = <input type="text">`,
 		`<input type="text"> X + <input type="text"> = <input type="text"> X + <input type="text">`,
-		`<div id="smaller"><input type="text">(<input type="text">X+<input type="text">)+<input type="text">X+<input type="text"> = 
+		`<div id="smaller"><input type="text">(<input type="text">X+<input type="text">)+<input type="text">X+<input type="text"> =
 	<br>
 	<input type="text">(<input type="text">X+<input type="text">)+<input type="text">X+<input type="text"></div>`,
 	],
 	[
 		`<input type="text"> X<sup>2</sup> + <input type="text"> X + <input type="text"> = 0`,
-		``,
-		``,
-		``
+		`<input type="text"> ( X + <input type="text">)<sup>2</sup> = <input type="text">`,
+		`<input type="text"> (X+<input type="text"> )<sup>2</sup> + <input type="text"> X =<input type="text"> `,
+		`<div id="smaller"><input type="text">(<input type="text">X+<input type="text">)<sup>2</sup>+<input type="text">X<sup>2</sup>+<br>
+		<input type="text">X = <input type="text"></div>`
 	],
 	[
 		``,
@@ -36,8 +37,8 @@ let modeMap = [
 
 // =======================================================================
 // 功能定义
-let currentType = 0;
-currentMode = 2, // 当前模式
+let currentType = 1,
+	currentMode = 3, // 当前模式
 	lastS = modes[currentMode], // 上一个选中的
 	fixedNum = 5, // 精度位
 	hasPressed = false; // 禁止连按
@@ -47,7 +48,8 @@ getE("#type").textContent = typeMap[currentType];
 // 设置选中样式
 modes[currentMode].classList.add("selected");
 // 是否改动精度值
-setFixed.addEventListener("input", function() {
+setFixed.addEventListener("input", function () {
+	if (!testAllow(this.value)) this.value = '';
 	fixedNum = this.value >= 0 && this.value <= 15 ? +this.value : 5;
 });
 // 切换类型的事件
@@ -59,7 +61,7 @@ getE(".changeType").addEventListener("click", () => {
 })
 // 切换模式的事件
 modes.forEach((mode) => {
-	mode.addEventListener("click", function() {
+	mode.addEventListener("click", function () {
 		lastS.classList.remove("selected")
 		this.classList.add("selected");
 		lastS = this;
@@ -81,7 +83,7 @@ function render(sentences) {
 
 // =======================================================================
 // 解方程函数
-modeMap[0][0] = function() {
+modeMap[0][0] = function () {
 	const inputs = area.querySelectorAll("input");
 	let outputSentences = [];
 	let temp = testFixed(inputs[1].value / inputs[0].value);
@@ -90,7 +92,7 @@ modeMap[0][0] = function() {
 	return outputSentences;
 }
 
-modeMap[0][1] = function() {
+modeMap[0][1] = function () {
 	const inputs = area.querySelectorAll("input");
 	let outputSentences = [];
 	let temp = testFixed(inputs[2].value - inputs[1].value);
@@ -100,7 +102,7 @@ modeMap[0][1] = function() {
 	outputSentences.push(`解得 : X = ${temp}`);
 	return outputSentences;
 }
-modeMap[0][2] = function() {
+modeMap[0][2] = function () {
 	const inputs = area.querySelectorAll("input");
 	let outputSentences = [];
 	let temp1 = testFixed(inputs[0].value - inputs[2].value);
@@ -111,7 +113,7 @@ modeMap[0][2] = function() {
 	outputSentences.push(`解得 : X = ${temp}`);
 	return outputSentences;
 }
-modeMap[0][3] = function() {
+modeMap[0][3] = function () {
 	const inputs = area.querySelectorAll("input");
 	let outputSentences = [];
 	let temp1 = testFixed(inputs[0].value * inputs[1].value);
@@ -135,17 +137,73 @@ modeMap[0][3] = function() {
 	outputSentences.push(`解得 : X = ${temp}`);
 	return outputSentences;
 }
-modeMap[1][0] = function() {
-	const inputs = area.querySelectorAll("input");
+modeMap[1][0] = function () {
+	const inputs = Array.from(area.querySelectorAll("input"));
+	let [a, b, c] = inputs.map((e) => e.value);
 	let outputSentences = [];
-	let derta = testFixed(inputs[1].value ** 2 - 4 * inputs[0].value * inputs[2].value);
+	let derta = testFixed(b ** 2 - 4 * a * c);
 	outputSentences.push(`计算判别式 : Δ = ${derta}`);
 	if (derta < 0) {
 		outputSentences.push(`Δ < 0 : 方程无实数根`);
 		return outputSentences;
 	}
-	let temp1 = testFixed((-inputs[1].value + derta ** 0.5) / 2 * inputs[0].value);
-	let temp2 = testFixed((-inputs[1].value - derta ** 0.5) / 2 * inputs[0].value);
+	let temp1 = testFixed((-b + derta ** 0.5) / 2 * a);
+	let temp2 = testFixed((-b - derta ** 0.5) / 2 * a);
+	outputSentences.push(`公式计算 : X<sub>1</sub> = ${temp1} , X<sub>2</sub> = ${temp2}`);
+	return outputSentences;
+}
+modeMap[1][1] = function () {
+	const inputs = area.querySelectorAll("input");
+	let outputSentences = [];
+	let a = testFixed(inputs[0].value);
+	let b = testFixed(2 * inputs[0].value * inputs[1].value);
+	let c = testFixed(inputs[0].value * inputs[1].value ** 2 - inputs[2].value);
+	outputSentences.push(`去括号 : ${a} X<sup>2</sup> + ${b} X + ${c} = 0`);
+	let derta = testFixed(b ** 2 - 4 * a * c);
+	outputSentences.push(`计算判别式 : Δ = ${derta}`);
+	if (derta < 0) {
+		outputSentences.push(`Δ < 0 : 方程无实数根`);
+		return outputSentences;
+	}
+	let temp1 = testFixed((-b + derta ** 0.5) / 2 * a);
+	let temp2 = testFixed((-b - derta ** 0.5) / 2 * a);
+	outputSentences.push(`公式计算 : X<sub>1</sub> = ${temp1} , X<sub>2</sub> = ${temp2}`);
+	return outputSentences;
+}
+modeMap[1][2] = function () {
+	const inputs = area.querySelectorAll("input");
+	let outputSentences = [];
+	let a = testFixed(inputs[0].value);
+	let b = testFixed(2 * inputs[0].value * inputs[1].value + +inputs[2].value);
+	let c = testFixed(inputs[0].value * inputs[1].value ** 2 - inputs[3].value);
+	outputSentences.push(`去括号 : ${a} X<sup>2</sup> + ${b} X + ${c} = 0`);
+	let derta = testFixed(b ** 2 - 4 * a * c);
+	outputSentences.push(`计算判别式 : Δ = ${derta}`);
+	if (derta < 0) {
+		outputSentences.push(`Δ < 0 : 方程无实数根`);
+		return outputSentences;
+	}
+	let temp1 = testFixed((-b + derta ** 0.5) / 2 * a);
+	let temp2 = testFixed((-b - derta ** 0.5) / 2 * a);
+	outputSentences.push(`公式计算 : X<sub>1</sub> = ${temp1} , X<sub>2</sub> = ${temp2}`);
+	return outputSentences;
+}
+modeMap[1][3] = function () {
+	const inputs = area.querySelectorAll("input");
+	let outputSentences = [];
+	let temp = inputs[0].value;
+	let a = testFixed(temp * inputs[1].value ** 2 + +inputs[3].value);
+	let b = testFixed(2 * inputs[1].value * inputs[2].value + +inputs[4].value);
+	let c = testFixed(inputs[0].value * inputs[2].value ** 2 - inputs[5].value);
+	outputSentences.push(`去括号 : ${a} X<sup>2</sup> + ${b} X + ${c} = 0`);
+	let derta = testFixed(b ** 2 - 4 * a * c);
+	outputSentences.push(`计算判别式 : Δ = ${derta}`);
+	if (derta < 0) {
+		outputSentences.push(`Δ < 0 : 方程无实数根`);
+		return outputSentences;
+	}
+	let temp1 = testFixed((-b + derta ** 0.5) / 2 * a);
+	let temp2 = testFixed((-b - derta ** 0.5) / 2 * a);
 	outputSentences.push(`公式计算 : X<sub>1</sub> = ${temp1} , X<sub>2</sub> = ${temp2}`);
 	return outputSentences;
 }
@@ -168,18 +226,10 @@ document.addEventListener("keypress", (ev) => {
 });
 
 function toAnother(target) {
-	if (target.nodeName == "INPUT") {
-		let next = target;
-		if (next.nextElementSibling == null) {
-			next = next.parentElement.firstElementChild;
-		} else {
-			next = target.nextElementSibling;
-			if (next.nodeName != "INPUT") {
-				next = next.nextElementSibling;
-			}
-		}
-		next.focus();
-	}
+	let inputs = Array.from(target.parentElement.querySelectorAll("input"));
+	let next = inputs.indexOf(target) + 1;
+	next %= inputs.length;
+	inputs[next].focus();
 }
 
 function calc() {
@@ -196,7 +246,7 @@ function calc() {
 	function ifEnded() {
 		return new Promise(resolve => {
 			// main.addEventListener("transitionend",() => resolve()); // 部分浏览器不兼容，就很烦
-			setTimeout(() => resolve(),500);
+			setTimeout(() => resolve(), 500);
 		});
 	}
 	// 异步函数

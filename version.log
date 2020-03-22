@@ -22,19 +22,19 @@ MTP v2.0
 		MTPE(Math Tool Plus Equation) --> 解方程工具
 		MTPP(Math Tool Plus Painter) --> 绘制函数工具
 MTP v2.1
-		优化显示问题
+	优化显示问题
 MTP v2.2
-		子模块MTPE v0.1
-			完成基本框架
+	子模块MTPE v0.1
+		完成基本框架
 MTP v2.3
-		子模块MTPE v0.2
-			加入过渡动画
+	子模块MTPE v0.2
+		加入过渡动画
 MTP v2.4
-		子模块MTPE v0.3
-			加入Mode1
+	子模块MTPE v0.3
+		加入Mode1
 MTP v2.5
-		子模块MTPE v0.4
-			加入Mode2,Mode3
+	子模块MTPE v0.4
+		加入Mode2,Mode3
 MTP v2.6
 	子模块MTPE v0.5
 		加入Mode4
@@ -90,16 +90,28 @@ MTP v3.5
 		布局上有所改动
 MTP v3.6
 	子模块MTPE v2.2
--------------未完成--------------
 		支持一元二次方程Mode2,Mode3
 MTP v4.0
-	添加一种打开模块的方式为更实用的方式
-	子模块MTPE v2.5
-		支持一元二次方程Mode4
-		支持二元一次方程Mode1,Mode2,Mode3,Mode4
+	使用git做版本控制
+	子模块MTPC v3.0
+		性能优化
+		退格删除
 	子模块MTPP v2.0
+		修复已知问题
+		支持回车绘图,空格切换
 		支持删除被添加的函数
-		支持输入表达式计算
+		初步支持输入表达式计算
+MTP v4.1
+	添加一种打开模块的方式为更实用的方式
+	子模块MTPE v3.0
+		性能优化
+		支持一元二次方程Mode4
+-------------未完成--------------
+MTP v4.2
+	子模块MTPE v3.1
+		支持二元一次方程Mode1,Mode2,Mode3,Mode4
+MTP v4.3
+	子模块MTPP v2.5
 		支持与点交互
 		绘图工具箱:开启手动绘制新时代!
 			笔刷

@@ -2,6 +2,7 @@
 // 初始化变量
 const basic = getE("#basic").getContext("2d");
 const paintField = getE("#paintField").getContext("2d");
+// const kitField = getE("#kitField").getContext("2d");
 const LENGTH = 760;
 basic.canvas.width = LENGTH;
 basic.canvas.height = LENGTH;
@@ -42,7 +43,7 @@ function xOy() {
 	basic.moveTo(point, point)
 	basic.arc(point, point, 3, 0, 180 * Math.PI);
 	basic.fill();
-	basic.fillText("0",point+unitLength/7,point+unitLength/2)
+	basic.fillText("0", point + unitLength / 7, point + unitLength / 2)
 	// 绘制坐标轴的线条
 	basic.moveTo(0, point);
 	basic.lineTo(LENGTH, point);
@@ -56,7 +57,7 @@ function xOy() {
 	basic.lineTo(point + 0.2 * unitLength, 0 + 0.2 * unitLength)
 	// 向右箭头
 	basic.moveTo(LENGTH, point);
-	basic.lineTo(LENGTH - 0.2 * unitLength, point - 0.2	 * unitLength);
+	basic.lineTo(LENGTH - 0.2 * unitLength, point - 0.2 * unitLength);
 	basic.moveTo(LENGTH, point);
 	basic.lineTo(LENGTH - 0.2 * unitLength, point + 0.2 * unitLength);
 	basic.stroke();
@@ -69,37 +70,40 @@ function paint() {
 	paintField.clearRect(0, 0, LENGTH, LENGTH);
 	let proParams = getAE(".proportional");
 	for (let i = 0; i < proParams.length; i += 2) {
-		if (testAllow(proParams[i].value)) {
-			proportionalFunc(+proParams[i].value, proParams[i + 1].value);
-		}
+		proportionalFunc(proParams[i].value, proParams[i + 1].value);
 	};
 	let foParams = getAE(".fo");
 	for (let i = 0; i < foParams.length; i += 3) {
 		let foInputs = [foParams[i], foParams[i + 2]];
-		if (foInputs.every(e => testAllow(e.value))) {
-			foFunc(+foInputs[0].value, +foInputs[1].value, foParams[i + 1].value);
-		}
+		foFunc(foInputs[0].value, foInputs[1].value, foParams[i + 1].value);
 	}
 	let quParams = getAE(".qu");
 	for (let i = 0; i < quParams.length; i += 4) {
 		let quInputs = [quParams[i], quParams[i + 2], quParams[i + 3]];
-		if (quInputs.every(e => testAllow(e.value))) {
-			quFunc(+quInputs[0].value, +quInputs[1].value, +quInputs[2].value, quParams[i + 1].value);
-		}
+		quFunc(quInputs[0].value, quInputs[1].value, quInputs[2].value, quParams[i + 1].value);
 	}
 	let inProParams = getAE(".inPro");
 	for (let i = 0; i < inProParams.length; i += 2) {
-		if (testAllow(inProParams[i].value)) {
-			inverseProportionalFunc(+inProParams[i].value, inProParams[i + 1].value);
-		}
+		inverseProportionalFunc(inProParams[i].value, inProParams[i + 1].value);
 	};
 	painted = true;
+}
+// 切换输入框
+function toAnother(target) {
+	if (target.nodeName == "INPUT" && target.type == "text") {
+		let next = target;
+		let inputs = Array.from(getE("#leftArea").querySelectorAll("input"));
+		let i = (inputs.indexOf(next) + 1) % inputs.length;
+		if (inputs[i].type != "text") i = (i + 1) % inputs.length;
+		inputs[i].focus();
+	}
 }
 // =======================================================================
 
 // =======================================================================
 // 绘制函数的函数
 function proportionalFunc(k, c) {
+	k = +eval(k);
 	paintField.beginPath();
 	paintField.strokeStyle = c;
 	paintField.moveTo(point + x, point - x * k);
@@ -108,6 +112,7 @@ function proportionalFunc(k, c) {
 }
 
 function foFunc(k, b, c) {
+	[k, b] = [k, b].map(v => +eval(v));
 	paintField.beginPath();
 	paintField.strokeStyle = c;
 	paintField.moveTo(point + x, point - x * k - unitLength * b);
@@ -116,6 +121,7 @@ function foFunc(k, b, c) {
 }
 
 function quFunc(a, h, k, c) {
+	[a, h, k] = [a, h, k].map(v => +eval(v));
 	paintField.beginPath();
 	paintField.strokeStyle = c;
 	paintField.moveTo(point + -x, point - (a * (-x / unitLength - h) ** 2 + k) * unitLength);
@@ -126,6 +132,7 @@ function quFunc(a, h, k, c) {
 }
 
 function inverseProportionalFunc(k, c) {
+	k = eval(k);
 	paintField.beginPath();
 	paintField.strokeStyle = c;
 	paintField.moveTo(point + 0.1, point - k * unitLength / 0.1 * unitLength);
@@ -141,6 +148,23 @@ function inverseProportionalFunc(k, c) {
 // =======================================================================
 
 xOy();
+document.addEventListener("keypress", ev => {
+	let kCode = ev.keyCode;
+	if (kCode < 41 || kCode > 57) {
+		ev.preventDefault();
+		if (kCode == 13) paint();
+		if (kCode == 32) toAnother(ev.target);
+	}
+})
+getE("#leftArea").addEventListener("input", (ev) => {
+	if(ev.target.type=="color")return;
+	// 有部分问题,待解决...
+	if (/^-?[0-9]+[\/\*\.\+-]?$/.test(ev.target.value)) return;
+	if (!(/^-?[0-9]+([\/\*\.\+-]?-?[0-9]+)?$/).test(ev.target.value)) {
+		console.log(0);
+		ev.target.value = ev.target.value.slice(0, -1);
+	}
+})
 getE("#btn").addEventListener("click", paint);
 getAE(".add").forEach(e => {
 	e.addEventListener("click", () => {
