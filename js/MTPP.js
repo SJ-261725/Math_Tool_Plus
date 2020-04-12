@@ -3,7 +3,7 @@
 const basic = getE("#basic").getContext("2d");
 const paintField = getE("#paintField").getContext("2d");
 // const kitField = getE("#kitField").getContext("2d");
-const LENGTH = 760;
+const LENGTH = 800;
 basic.canvas.width = LENGTH;
 basic.canvas.height = LENGTH;
 basic.canvas.style.border = "2px solid #000";
@@ -136,11 +136,11 @@ function inverseProportionalFunc(k, c) {
 	paintField.beginPath();
 	paintField.strokeStyle = c;
 	paintField.moveTo(point + 0.1, point - k * unitLength / 0.1 * unitLength);
-	for (let i = 0.2; i <= x; i += 0.1) {
+	for (let i = 0.2; i <= x; i += 0.5) {
 		paintField.lineTo(point + i, point - k * unitLength / i * unitLength);
 	}
 	paintField.moveTo(point + -x, point - k * unitLength / -x * unitLength);
-	for (let i = -x + 0.1; i <= 0.1; i += 0.1) {
+	for (let i = -x + 0.1; i <= 0.1; i += 0.5) {
 		paintField.lineTo(point + i, point - k * unitLength / i * unitLength);
 	}
 	paintField.stroke();
@@ -161,7 +161,7 @@ getE("#leftArea").addEventListener("input", (ev) => {
 	// 有部分问题,待解决...
 	if (/^-?[0-9]+[\/\*\.\+-]?$/.test(ev.target.value)) return;
 	if (!(/^-?[0-9]+([\/\*\.\+-]?-?[0-9]+)?$/).test(ev.target.value)) {
-		console.log(0);
+		if(ev.target.value==='-')return;
 		ev.target.value = ev.target.value.slice(0, -1);
 	}
 })

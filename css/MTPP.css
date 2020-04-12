@@ -61,6 +61,7 @@ label {
 
 #leftArea input[type="color"] {
 	width: 1.6rem;
+	padding: 2px;
 }
 
 .inputField {

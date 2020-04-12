@@ -106,6 +106,10 @@ MTP v4.1
 	子模块MTPE v3.0
 		性能优化
 		支持一元二次方程Mode4
+MTP v4.1.1
+	子模块MTPP v2.0.1
+		修复负号问题
+		修复Chromium内核浏览器中无法绘制反比例的问题
 -------------未完成--------------
 MTP v4.2
 	子模块MTPE v3.1
@@ -118,10 +122,3 @@ MTP v4.3
 			橡皮
 			矩形绘制
 			圆形绘制
-
-
-git clone https://github.com/SJ-261725/SJ-261725.github.io.git
-cd SJ-261725.github.io
-git add .
-git commit -m "update"
-git push
